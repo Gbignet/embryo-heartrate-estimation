@@ -42,8 +42,8 @@ python main.py
 ❗ Notes
 If you get an error related to cv2.imshow, make sure you are not using opencv-python-headless.
 
-
-Work is separated into multiple parts:
+```
+Work is separated into multiple parts: 
 
 Step 0: The video will be "cut" into frames that we will analyse separately
 
