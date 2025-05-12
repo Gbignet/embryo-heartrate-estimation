@@ -39,36 +39,45 @@ From the project/ folder, run:
 python main.py
 
 
-❗ Notes
+❗ Note
 If you get an error related to cv2.imshow, make sure you are not using opencv-python-headless.
 
 ```
-Work is separated into multiple parts: 
+This project is organized into several key steps aimed at analyzing a video of an embryo to determine its heartbeat 
+through image segmentation and morphological processing.
 
-Step 0: The video will be "cut" into frames that we will analyse separately
+Step 0: Frame Extraction
+The video is first decomposed into individual frames, which are then analyzed separately. This allows for frame-by-frame processing and analysis.
 
+Step 1: Color Space Conversion
+Frames are initially read in RGB format, which is not ideal for our segmentation task.
+Instead, we convert each frame to HSV (Hue, Saturation, Value) format:
 
-Step 1: Image are usually opened in the RGB format (or some variation of it). In our current use case, the value of green, blue and red wont help as much
-for the segmentation process.
-We will convert the frame into a HSV format
-(but HSV images here)
-This part will facillitate the segmentation process by having a threshold
+Why HSV?
+HSV separates color information (hue) from brightness (value), which allows for more effective thresholding and segmentation.
 
+![Embryo snapshot](Project/snapshot/embryo_snapshot.png)
 
 
 Part 2 dealing with noise:
 Our image is met with noise due to the poor quality of the video. The noise is removed using an opening, which is an erosion followed by a dilation (the white noise are removed with dilation and the dilation is here to prevent the AoI(Area of Interrest) from shrinking)
 
 ![Mask Image](Project/snapshot/mask.jpg)
-![Open_Morph](Project/snapshot/opening_morph.jpg)
+![OPening Morphology Result](Project/snapshot/opening_morph.jpg)
 
 
-Notice: As you can see, the opening isnt perfect, but we know the region of interrest is present along with some clutter
-I decide to choose the largest area. This is choosen in favor of having a stricter threshold because it might fail to detect the AoI in some frames
+Note: 
+We choose the largest remaining contour to represent the AoI (Area of Interest). This approach is preferred over stricter thresholds, 
+which might fail to detect the AoI in certain frames.
 
-Part 3: beat detection:
+Part 3: Heartbeat Detection:
 
-Now that we have our AoI we will use it to determine the heartrate..
-As the embryo heart "beat", the RoI becomes larger and spikes at a maximum area values before going back down.
-A heartbeat is determined when it detects the local maximum area.
+With the AoI segmented in each frame, we track its area over time.
+
+   • As the embryo's heart beats, the AoI expands and contracts.
+
+   • A heartbeat is detected when the area reaches a local maximum, indicating a pulse.
+
+This step translates changes in segmented area into a measurable heart rate.
+
 
