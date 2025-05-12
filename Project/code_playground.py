@@ -6,7 +6,7 @@ import numpy as np
 
 # cap = cv2.VideoCapture(video_path)
 
-img_test = "./embryo_snapshot.png"
+img_test = "./snapshot/embryo_snapshot.png"
 debug = True
 
 
