@@ -60,9 +60,12 @@ HSV separates color information (hue) from brightness (value), which allows for 
 
 
 Part 2 dealing with noise:
-Our image is met with noise due to the poor quality of the video. The noise is removed using an opening, which is an erosion followed by a dilation (the white noise are removed with dilation and the dilation is here to prevent the AoI(Area of Interrest) from shrinking)
+Our image is met with noise due to the poor quality of the video. The noise is removed using an morphological opening, which erodes an image and then dilates the eroded image, using the same structuring element for both operations.
 
 ![Mask Image](Project/snapshot/Mask.jpg)
+
+Openings are usefull in this case to remove small thin lines and preserving the size of larger objects of the image.
+
 ![OPening Morphology Result](Project/snapshot/opening_morph.jpg)
 
 
